@@ -6,7 +6,7 @@
 ![license](https://img.shields.io/github/license/patrickmcnamara/icat?label=license)
 
 A command-line tool that prints a given image to the terminal using coloured block characters.
-It supports PNG, JPEG and GIF images.
+It supports png, jpeg, gif, bmp, ccitt, tiff, vp8, vp8l and webp images.
 
 The image output is sized based on the width of the terminal.
 The terminal must support true colour output.

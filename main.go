@@ -3,11 +3,6 @@ package main
 import (
 	"fmt"
 	"image"
-	"image/gif"
-	"image/jpeg"
-	"image/png"
-	"io"
-	"net/http"
 	"os"
 
 	"golang.org/x/crypto/ssh/terminal"
@@ -22,27 +17,16 @@ func main() {
 
 	// loop through image arguments
 	for i, filename := range os.Args[1:] {
-		// read file and detect it's type
+		// open image file
 		f, err := os.Open(filename)
 		if err != nil {
 			errh(err)
 		}
-		buf := make([]byte, 512)
-		f.Read(buf)
-		ct := http.DetectContentType(buf)
-		f.Seek(0, io.SeekStart)
 
-		// decode the image
-		var img image.Image
-		switch ct {
-		case "image/png":
-			img, _ = png.Decode(f)
-		case "image/jpeg":
-			img, _ = jpeg.Decode(f)
-		case "image/gif":
-			img, _ = gif.Decode(f)
-		default:
-			return
+		// decode image
+		img, _, err := image.Decode(f)
+		if err != nil {
+			errh(err)
 		}
 
 		// calculate image sizing

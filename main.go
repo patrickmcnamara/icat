@@ -16,7 +16,7 @@ func main() {
 	}
 
 	// loop through image arguments
-	for i, filename := range os.Args[1:] {
+	for _, filename := range os.Args[1:] {
 		// open image file
 		f, err := os.Open(filename)
 		if err != nil {
@@ -34,11 +34,6 @@ func main() {
 		ih := img.Bounds().Max.Y
 		r := (iw / tw) + 1
 
-		// print filename and info if there is more than one image
-		if len(os.Args) > 2 {
-			fmt.Printf("%s (%dx%d, %.2f%%)\n", filename, iw/r, ih/r, float64(r)/100)
-		}
-
 		// print image
 		for y := 0; y < ih-r; y += r {
 			for x := 0; x < iw-r; x += r {
@@ -49,11 +44,6 @@ func main() {
 				b /= 256
 				fmt.Printf("\x1b[38;2;%d;%d;%dm█\x1b[0m", r, g, b)
 			}
-			fmt.Println()
-		}
-
-		// extra newline between images
-		if i != len(os.Args[1:])-1 {
 			fmt.Println()
 		}
 	}

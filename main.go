@@ -15,15 +15,17 @@ import (
 
 func main() {
 	// get terminal size
-	tw, _, _ := terminal.GetSize(int(os.Stdout.Fd()))
+	tw, _, err := terminal.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		errh(err)
+	}
 
 	// loop through image arguments
 	for i, filename := range os.Args[1:] {
 		// read file and detect it's type
 		f, err := os.Open(filename)
 		if err != nil {
-			fmt.Println(err)
-			return
+			errh(err)
 		}
 		buf := make([]byte, 512)
 		f.Read(buf)
@@ -71,4 +73,9 @@ func main() {
 			fmt.Println()
 		}
 	}
+}
+
+func errh(err error) {
+	fmt.Fprintf(os.Stderr, "icat: %s\n", err)
+	os.Exit(1)
 }

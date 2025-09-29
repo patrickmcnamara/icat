@@ -5,12 +5,12 @@ import (
 	"image"
 	"os"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 func main() {
 	// get terminal size
-	tw, _, err := terminal.GetSize(int(os.Stdout.Fd()))
+	tw, _, err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		errh(err)
 	}
